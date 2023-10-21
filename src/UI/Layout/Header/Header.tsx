@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import classes from "./Header.module.scss";
+import {NavLink} from "react-router-dom"
 
 const Header = () => {
   return (
@@ -8,7 +9,7 @@ const Header = () => {
         <div style={{height:'6rem'}}><img src="/images/nirmata-logo.svg"></img></div>
       </div>
       <nav className={classes["navigation-container"]}>
-        <Typography fontWeight={"bolder"} className={classes['nav-item']}>CRICKET</Typography>
+        <NavLink to={"/cricket"} className={({isActive}) => isActive ? classes['active-nav-item'] : undefined}><Typography fontWeight={"bolder"} >CRICKET</Typography></NavLink>
         <Typography fontWeight={"bolder"} className={classes['nav-item']}>FOOTBALL</Typography>
       </nav>
     </header>

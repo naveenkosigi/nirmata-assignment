@@ -5,8 +5,9 @@
     align-items: center;
 }
 
-.navigation-container .nav-item:hover{
+.nav-item:hover,.active-nav-item{
     text-decoration: underline;
+    color: unset;
     text-underline-offset: 0.8rem;
     cursor: pointer;
 }
