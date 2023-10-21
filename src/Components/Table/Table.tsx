@@ -19,7 +19,7 @@ export function Table(props: TablePropsType) {
 
   return (
     <>
-      <TableContainer style={{ width: "100%", maxHeight: "309px" }}>
+      <TableContainer style={{ width: "100%", maxHeight: "59vh" }}>
         <MaterialTable aria-label="simple table" stickyHeader>
           <TableHead>
             <TableRow>
