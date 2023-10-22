@@ -4,7 +4,9 @@ import { TPlayer } from "../../Types/types";
 import SearchField from "../Common/SearchField";
 import Box from "@mui/material/Box";
 import getPlayers from "../../Store/get-players";
-import TablePagination  from "@mui/material/TablePagination";
+import TablePagination from "@mui/material/TablePagination";
+import { formatMillisecondsToDateString } from "../../Helpers/dateHelper";
+
 
 const HEADERS = ["Name", "Rank", "Type", "Points", "DOB"];
 
@@ -15,15 +17,16 @@ const CricketInfo = () => {
 
   const [searchString, setSearchString] = useState<string>("");
 
-  const [offSet,setOffSet] = useState<number>(0);
+  const [offSet, setOffSet] = useState<number>(0);
 
-  const [pageSize,setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   useEffect(() => {
     if (searchString) {
       setPlayersData(filterByNameAndReturn(playersData, searchString));
     } else {
       getPlayers().then((data) => {
+        transformFields(data);
         setPlayersData(data);
       });
     }
@@ -31,11 +34,10 @@ const CricketInfo = () => {
 
   useEffect(() => {
     getPlayers().then((data) => {
-        setPlayersData(returnDataByOffSet(offSet,pageSize,data));
+      transformFields(data);
+      setPlayersData(returnDataByOffSet(offSet, pageSize, data));
     });
-  },[offSet,pageSize])
-
-
+  }, [offSet, pageSize]);
 
   return (
     <>
@@ -54,17 +56,17 @@ const CricketInfo = () => {
       ></Table>
       <TablePagination
         component="div"
-        sx={{marginTop:"0.8rem"}}
+        sx={{ marginTop: "0.8rem" }}
         count={playersData.length ?? ""}
         page={offSet / pageSize} //offset
         onPageChange={(event, nextPageNumber) => {
           setOffSet(nextPageNumber * pageSize);
         }} //offSet setter
         rowsPerPage={pageSize} //page-size
-        onRowsPerPageChange={(event : any) => {
-          setPageSize(event.target.value);
+        onRowsPerPageChange={(event: any) => {
+          setPageSize(event.target.value); //page-size setter
           setOffSet(0);
-        }} //page-size setter
+        }}
       />
     </>
   );
@@ -85,15 +87,30 @@ const filterByNameAndReturn = (
   });
 };
 
-const returnDataByOffSet = (offSet : number , pageSize : number , data : TPlayer[]) => {
-    const toReturn : TPlayer[] = [];
+const returnDataByOffSet = (
+  offSet: number,
+  pageSize: number,
+  data: TPlayer[]
+) => {
+  const toReturn: TPlayer[] = [];
 
+  for (
+    let i = offSet, count = 0;
+    count < pageSize && i < data.length;
+    i++, count++
+  ) {
+    toReturn.push(data[i]);
+  }
 
-    for(let i = offSet,count = 0;count<pageSize && i<data.length;i++,count++){
-        toReturn.push(data[i]);
+  return toReturn;
+};
+
+const transformFields = (data: TPlayer[] | any[]) => {
+  for (let player of data) {
+    if (player.dob) {
+      player.dob = formatMillisecondsToDateString(player.dob);
     }
-
-    return toReturn;
-}
+  }
+};
 
 export default CricketInfo;
