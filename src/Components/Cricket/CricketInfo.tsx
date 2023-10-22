@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Table } from "../Common/Table/Table";
-import { TPlayer } from "../../Types/types";
+import { TPlayer, TPlayerType } from "../../Types/types";
 import SearchField from "../Common/SearchField";
 import Box from "@mui/material/Box";
 import getPlayers from "../../Store/get-players";
 import TablePagination from "@mui/material/TablePagination";
 import { formatMillisecondsToDateString } from "../../Helpers/dateHelper";
-
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import { Button, InputLabel, Select } from "@mui/material";
 
 const HEADERS = ["Name", "Rank", "Type", "Points", "DOB"];
 
@@ -20,6 +22,8 @@ const CricketInfo = () => {
   const [offSet, setOffSet] = useState<number>(0);
 
   const [pageSize, setPageSize] = useState<number>(10);
+
+  const [searchType,setSearchType] = useState<TPlayerType | "">("");
 
   useEffect(() => {
     if (searchString) {
@@ -39,14 +43,40 @@ const CricketInfo = () => {
     });
   }, [offSet, pageSize]);
 
+  useEffect(() => {
+    getPlayers({type : searchType as TPlayerType}).then((data) => {
+        transformFields(data);
+        setPlayersData(returnDataByOffSet(offSet, pageSize, data));  
+    })
+  },[searchType])
+
   return (
     <>
-      <Box display={"flex"} flexDirection={"row-reverse"}>
+      <Box display={"flex"} flexDirection={"row-reverse"} justifyContent={"space-between"} alignItems={"center"}>
         <SearchField
           setCallback={setSearchString}
           placeholder="Search by Name"
           value={searchString}
         />
+        <Box width={"10rem"}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Player Type</InputLabel>
+            <Select
+              labelId="Player Type"
+              id="player-type"
+              label="Player Type"
+              value={searchType}
+              defaultValue={searchType}
+              onChange={(event : any) => {setSearchType(event.target.value)}}
+            >
+              <MenuItem value={"batsman"}>Batsmen</MenuItem>
+              <MenuItem value={"bowler"}>Bowler</MenuItem>
+              <MenuItem value={"allRounder"}>AllRounder</MenuItem>
+              <MenuItem value={"wicketKeeper"}>WicketKeeper</MenuItem>
+            </Select>
+          </FormControl>
+          {searchType && <Button variant="contained" onClick={() => {setSearchType("")}}>Clear</Button>}
+        </Box>
       </Box>
       <Table
         headers={HEADERS}
