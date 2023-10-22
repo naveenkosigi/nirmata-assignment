@@ -1,9 +1,7 @@
-import Header from "./UI/Layout/Header/Header";
-import Paper from "@mui/material/Paper";
-import classes from './App.module.scss'
 import CricketInfo from "./Components/Cricket/CricketInfo";
 import { createBrowserRouter , RouterProvider } from "react-router-dom";
 import Layout from "./UI/Layout/Layout";
+import CricketPlayerDetails from "./Components/Cricket/CricketPlayerDetails";
 
 
 // const routes = createBrowserRouter([
@@ -36,6 +34,10 @@ const routes = createBrowserRouter([
       {
         path:'cricket',
         element:<CricketInfo />
+      },
+      {
+        path:'cricket/:id',
+        element:<CricketPlayerDetails />
       }
     ]
   }
