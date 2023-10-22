@@ -9,7 +9,7 @@ import {
 import classes from "./Table.module.scss";
 export interface TablePropsType {
   headers: string[];
-  data: any[][];
+  data: any[];
   onRowClick: Function;
   columnsToShow: string[];
 }
