@@ -17,16 +17,13 @@ const CricketInfo = () => {
   const [searchString,setSearchString] = useState<string>("");
   
   useEffect(() => {
-
-    getPlayers().then((data) => {
-        setPlayersData(data)
-    })
-
-},[])
-
-  useEffect(() => {
     if(searchString){
-        // filterByNameAndReturn(playersData);
+        setPlayersData(filterByNameAndReturn(playersData,searchString));
+    }
+    else{
+        getPlayers().then((data) => {
+            setPlayersData(data)
+        })    
     }
   },[searchString])
 
@@ -49,12 +46,12 @@ const CricketInfo = () => {
   );
 };
 
-// const filterByNameAndReturn = (playersData : TPlayer[][],searchString : string) => {
-//     playersData.filter((player) => {
-//         if(player["name"].indexOf(searchString)){
-
-//         }
-//     })
-// }
+const filterByNameAndReturn = (playersData : TPlayer[],searchString : string) => {
+    return playersData.filter((player) => {
+        if((player["name"] as string).toLowerCase().indexOf(searchString.toLowerCase()) > -1){
+            return true;
+        }
+    })
+}
 
 export default CricketInfo;
