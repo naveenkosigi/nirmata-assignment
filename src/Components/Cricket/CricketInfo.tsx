@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import players from "../../Store/players";
 import { Table } from "../Common/Table/Table";
 import { TPlayer } from "../../Types/types";
 import SearchField from "../Common/SearchField";
 import Box from "@mui/material/Box";
-import CloneDeep from "lodash/cloneDeep"
 import getPlayers from "../../Store/get-players";
 
-const HEADERS = ["Name", "Type", "Points", "DOB"];
+const HEADERS = ["Name","Rank", "Type", "Points", "DOB"];
 
-const COLUMNAPIKEYS = ["name", "type", "points", "dob"];
+const COLUMNAPIKEYS = ["name","rank", "type", "points", "dob"];
 
 const CricketInfo = () => {
   const [playersData, setPlayersData] = useState<TPlayer[]>([]);
