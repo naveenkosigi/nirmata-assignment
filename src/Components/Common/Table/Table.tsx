@@ -7,15 +7,21 @@ import {
   Table as MaterialTable,
 } from "@mui/material";
 import classes from "./Table.module.scss";
+
+export interface TableConfig{
+  [key : string] : {
+    headerLabel : string,
+    allowSort ?: boolean
+  }
+}
 export interface TablePropsType {
-  headers: string[];
   data: any[];
   onRowClick: Function;
-  columnsToShow: string[];
+  config : TableConfig
 }
 
 export function Table(props: TablePropsType) {
-  const { headers, data } = props;
+  const { data , config } = props;
 
   return (
     <>
@@ -23,10 +29,10 @@ export function Table(props: TablePropsType) {
         <MaterialTable aria-label="simple table" stickyHeader>
           <TableHead>
             <TableRow>
-              {headers?.map((header, index) => {
+              {Object.keys(config)?.map((apiKey, index) => {
                 return (
                   <TableCell align="center" key={index}>
-                    {header}
+                    {config[apiKey].headerLabel}
                   </TableCell>
                 );
               })}
@@ -36,7 +42,7 @@ export function Table(props: TablePropsType) {
             {data?.map((row : any, rowIndex) => {
               return (
                 <TableRow key={rowIndex} className={classes.row}>
-                  {props.columnsToShow.map((apiKey, columnIndex) => {
+                  {Object.keys(config).map((apiKey, columnIndex) => {
                     return (
                       <TableCell
                         align="center"

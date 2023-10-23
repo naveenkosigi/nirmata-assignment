@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table } from "../Common/Table/Table";
+import { Table, TableConfig } from "../Common/Table/Table";
 import { TPlayer, TPlayerType } from "../../Types/types";
 import SearchField from "../Common/SearchField";
 import Box from "@mui/material/Box";
@@ -14,6 +14,29 @@ import classes from "./CricketInfo.module.scss"
 const HEADERS = ["Name", "Rank", "Type", "Points", "Age"];
 
 const COLUMNAPIKEYS = ["name", "rank", "type", "points", "dob"];
+
+const tableConfig : TableConfig = {
+  name : {
+    headerLabel : "Name",
+    allowSort:false
+  },
+  rank : {
+    headerLabel : "Rank",
+    allowSort:false 
+  },
+  type : {
+    headerLabel : "Type",
+    allowSort : false
+  },
+  points : {
+    headerLabel:'Points',
+    allowSort : false
+  },
+  dob : {
+    headerLabel : "Age",
+    allowSort : false
+  }
+}
 
 const CricketInfo = () => {
   const [playersData, setPlayersData] = useState<TPlayer[]>([]);
@@ -118,10 +141,9 @@ const CricketInfo = () => {
         </Box>
       </Box>
       <Table
-        headers={HEADERS}
-        columnsToShow={COLUMNAPIKEYS}
         onRowClick={onRowClick}
         data={playersData}
+        config={tableConfig}
       ></Table>
       <TablePagination
         component="div"
