@@ -3,12 +3,12 @@ import { Table } from "../Common/Table/Table";
 import { TPlayer, TPlayerType } from "../../Types/types";
 import SearchField from "../Common/SearchField";
 import Box from "@mui/material/Box";
-import getPlayers from "../../Store/get-players";
+import {getPlayers} from "./CricketHelpers";
 import TablePagination from "@mui/material/TablePagination";
-import { formatMillisecondsToDateString } from "../../Helpers/dateHelper";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, InputLabel, Select } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const HEADERS = ["Name", "Rank", "Type", "Points", "DOB"];
 
@@ -25,12 +25,13 @@ const CricketInfo = () => {
 
   const [searchType,setSearchType] = useState<TPlayerType | "">("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (searchString) {
       setPlayersData(filterByNameAndReturn(playersData, searchString));
     } else {
       getPlayers().then((data) => {
-        transformFields(data);
         setPlayersData(data);
       });
     }
@@ -38,17 +39,19 @@ const CricketInfo = () => {
 
   useEffect(() => {
     getPlayers().then((data) => {
-      transformFields(data);
       setPlayersData(returnDataByOffSet(offSet, pageSize, data));
     });
   }, [offSet, pageSize]);
 
   useEffect(() => {
     getPlayers({type : searchType as TPlayerType}).then((data) => {
-        transformFields(data);
         setPlayersData(returnDataByOffSet(offSet, pageSize, data));  
     })
   },[searchType])
+
+  const onRowClick = (data : any) => {
+    navigate(data["id"])
+  }
 
   return (
     <>
@@ -81,7 +84,7 @@ const CricketInfo = () => {
       <Table
         headers={HEADERS}
         columnsToShow={COLUMNAPIKEYS}
-        onRowClick={(data: any) => console.log(data)}
+        onRowClick={onRowClick}
         data={playersData}
       ></Table>
       <TablePagination
@@ -133,14 +136,6 @@ const returnDataByOffSet = (
   }
 
   return toReturn;
-};
-
-const transformFields = (data: TPlayer[] | any[]) => {
-  for (let player of data) {
-    if (player.dob) {
-      player.dob = formatMillisecondsToDateString(player.dob);
-    }
-  }
 };
 
 export default CricketInfo;
