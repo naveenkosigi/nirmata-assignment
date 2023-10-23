@@ -16,6 +16,9 @@ const transformFields = (data: TPlayer[] | any[]) => {
     if (player.dob) {
       player.dob = formatMillisecondsToDateString(player.dob);
     }
+    if(player.type){
+        player.type = player.type.charAt(0).toUpperCase() + player.type.slice(1)
+    }
   }
 };
 

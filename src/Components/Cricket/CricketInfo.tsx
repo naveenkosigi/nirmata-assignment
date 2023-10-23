@@ -3,11 +3,11 @@ import { Table } from "../Common/Table/Table";
 import { TPlayer, TPlayerType } from "../../Types/types";
 import SearchField from "../Common/SearchField";
 import Box from "@mui/material/Box";
-import {getPlayers} from "./CricketHelpers";
+import { getPlayers } from "./CricketHelpers";
 import TablePagination from "@mui/material/TablePagination";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
-import { Button, InputLabel, Select } from "@mui/material";
+import { Button, InputLabel, Select, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const HEADERS = ["Name", "Rank", "Type", "Points", "DOB"];
@@ -23,7 +23,9 @@ const CricketInfo = () => {
 
   const [pageSize, setPageSize] = useState<number>(10);
 
-  const [searchType,setSearchType] = useState<TPlayerType | "">("");
+  const [searchType, setSearchType] = useState<TPlayerType | "">("");
+
+  const [recordsCount, setRecordsCount] = useState<number>(0);
 
   const navigate = useNavigate();
 
@@ -38,24 +40,39 @@ const CricketInfo = () => {
   }, [searchString]);
 
   useEffect(() => {
-    getPlayers().then((data) => {
-      setPlayersData(returnDataByOffSet(offSet, pageSize, data));
-    });
+    if (!searchType) {
+      getPlayers().then((data) => {
+        setRecordsCount(data.length);
+        setPlayersData(returnDataByOffSet(offSet, pageSize, data));
+      });
+    }
   }, [offSet, pageSize]);
 
   useEffect(() => {
-    getPlayers({type : searchType as TPlayerType}).then((data) => {
-        setPlayersData(returnDataByOffSet(offSet, pageSize, data));  
-    })
-  },[searchType])
+    setOffSet(0);
+    getPlayers({ type: searchType as TPlayerType }).then((data) => {
+      setRecordsCount(data.length);
+      setPlayersData(returnDataByOffSet(0, pageSize, data));
+    });
+  }, [searchType]);
 
-  const onRowClick = (data : any) => {
-    navigate(data["id"])
-  }
+  const onRowClick = (data: any) => {
+    navigate(data["id"]);
+  };
 
   return (
     <>
-      <Box display={"flex"} flexDirection={"row-reverse"} justifyContent={"space-between"} alignItems={"center"}>
+      <Typography fontWeight={"bold"} fontSize={"1.5rem"} marginTop={"2rem"}>
+        Cricket Players List
+      </Typography>
+      <Box
+        display={"flex"}
+        flexDirection={"row-reverse"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        marginTop={"1rem"}
+        padding={"1.2rem"}
+      >
         <SearchField
           setCallback={setSearchString}
           placeholder="Search by Name"
@@ -70,7 +87,9 @@ const CricketInfo = () => {
               label="Player Type"
               value={searchType}
               defaultValue={searchType}
-              onChange={(event : any) => {setSearchType(event.target.value)}}
+              onChange={(event: any) => {
+                setSearchType(event.target.value);
+              }}
             >
               <MenuItem value={"batsman"}>Batsmen</MenuItem>
               <MenuItem value={"bowler"}>Bowler</MenuItem>
@@ -78,7 +97,16 @@ const CricketInfo = () => {
               <MenuItem value={"wicketKeeper"}>WicketKeeper</MenuItem>
             </Select>
           </FormControl>
-          {searchType && <Button variant="contained" onClick={() => {setSearchType("")}}>Clear</Button>}
+          {searchType && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSearchType("");
+              }}
+            >
+              Clear
+            </Button>
+          )}
         </Box>
       </Box>
       <Table
@@ -90,7 +118,7 @@ const CricketInfo = () => {
       <TablePagination
         component="div"
         sx={{ marginTop: "0.8rem" }}
-        count={playersData.length ?? ""}
+        count={recordsCount ?? ""}
         page={offSet / pageSize} //offset
         onPageChange={(event, nextPageNumber) => {
           setOffSet(nextPageNumber * pageSize);

@@ -12,7 +12,7 @@ const Layout = () => {
           elevation={3}
           square
           sx={{
-            padding: "3rem",
+            padding: "2rem",
             position: "relative",
             borderRadius: "2rem",
             top: "-1rem",
