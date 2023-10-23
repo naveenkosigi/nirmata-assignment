@@ -27,5 +27,15 @@
     background-color: #0e2391;
     color: white;
     padding: 2rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width:482px){
+    .logo-container{
+        margin: auto;
+    }
+    .header-container :nth-child(2){
+        margin-top: 0.8rem;
+    }
 }
 

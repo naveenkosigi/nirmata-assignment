@@ -1,0 +1,11 @@
+
+.filter-container{
+    flex-wrap: wrap;
+}
+
+@media (max-width:531px){
+    .filter-container > *{
+        margin-top: 1rem;
+        width: 100% !important;
+    }
+}

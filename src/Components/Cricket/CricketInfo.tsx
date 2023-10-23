@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, InputLabel, Select, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import classes from "./CricketInfo.module.scss"
 
 const HEADERS = ["Name", "Rank", "Type", "Points", "DOB"];
 
@@ -72,6 +73,7 @@ const CricketInfo = () => {
         alignItems={"center"}
         marginTop={"1rem"}
         padding={"1.2rem"}
+        className={classes["filter-container"]}
       >
         <SearchField
           setCallback={setSearchString}
@@ -103,6 +105,7 @@ const CricketInfo = () => {
               onClick={() => {
                 setSearchType("");
               }}
+              sx={{marginTop:"0.4rem"}}
             >
               Clear
             </Button>

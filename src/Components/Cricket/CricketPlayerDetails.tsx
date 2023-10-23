@@ -38,7 +38,7 @@ const CricketPlayerDetails = () => {
           Player Details
         </Typography>
         <Grid container spacing={2} marginTop={"1rem"}>
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <Typography
               fontSize={"1.2rem"}
               fontWeight={"bold"}
@@ -51,7 +51,7 @@ const CricketPlayerDetails = () => {
               {player?.name}
             </Typography>
           </Grid>
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <Typography
               fontSize={"1.2rem"}
               fontWeight={"bold"}
@@ -64,7 +64,7 @@ const CricketPlayerDetails = () => {
               {player?.rank}
             </Typography>
           </Grid>
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <Typography
               fontSize={"1.2rem"}
               fontWeight={"bold"}
@@ -77,7 +77,7 @@ const CricketPlayerDetails = () => {
               {player?.type}
             </Typography>
           </Grid>{" "}
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <Typography
               fontSize={"1.2rem"}
               fontWeight={"bold"}
@@ -90,7 +90,7 @@ const CricketPlayerDetails = () => {
               {player?.points}
             </Typography>
           </Grid>
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <Typography
               fontSize={"1.2rem"}
               fontWeight={"bold"}
@@ -103,7 +103,7 @@ const CricketPlayerDetails = () => {
               {player?.dob}
             </Typography>
           </Grid>
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <Typography
               fontSize={"1.2rem"}
               fontWeight={"bold"}
