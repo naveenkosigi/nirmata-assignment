@@ -11,9 +11,13 @@ import { Button, InputLabel, Select, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import classes from "./CricketInfo.module.scss";
 
-const HEADERS = ["Name", "Rank", "Type", "Points", "Age"];
+const CRICKETPLAYERFILTER ="cricketPlayerFilter";
 
-const COLUMNAPIKEYS = ["name", "rank", "type", "points", "dob"];
+interface userFilter{
+  offSet : number,
+  pageSize : number,
+  searchType : TPlayerType | ""
+}
 
 const tableConfig: TableConfig = {
   name: {
@@ -39,15 +43,18 @@ const tableConfig: TableConfig = {
 };
 
 const CricketInfo = () => {
+
+  const savedFilterState : userFilter = JSON.parse((localStorage.getItem(CRICKETPLAYERFILTER) as string) || "{}");
+
   const [playersData, setPlayersData] = useState<TPlayer[]>([]);
 
   const [searchString, setSearchString] = useState<string>("");
 
-  const [offSet, setOffSet] = useState<number>(0);
+  const [offSet, setOffSet] = useState<number>(savedFilterState?.offSet || 0);
 
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(savedFilterState?.pageSize || 10);
 
-  const [searchType, setSearchType] = useState<TPlayerType | "">("");
+  const [searchType, setSearchType] = useState<TPlayerType | "">(savedFilterState?.searchType || "");
 
   const [recordsCount, setRecordsCount] = useState<number>(0);
 
@@ -84,6 +91,15 @@ const CricketInfo = () => {
       setPlayersData(returnDataByOffSet(0, pageSize, data));
     });
   }, [searchType]);
+
+  useEffect(() => {
+    const filters : userFilter = {
+      searchType,
+      offSet,
+      pageSize
+    }
+    localStorage.setItem("cricketPlayerFilter",JSON.stringify(filters))
+  },[searchType,offSet,pageSize,searchString])
 
   const onRowClick = (data: any) => {
     navigate(data["id"]);
@@ -162,21 +178,6 @@ const CricketInfo = () => {
       />
     </>
   );
-};
-
-const filterByNameAndReturn = (
-  playersData: TPlayer[],
-  searchString: string
-) => {
-  return playersData.filter((player) => {
-    if (
-      (player["name"] as string)
-        .toLowerCase()
-        .indexOf(searchString.toLowerCase()) > -1
-    ) {
-      return true;
-    }
-  });
 };
 
 const returnDataByOffSet = (
