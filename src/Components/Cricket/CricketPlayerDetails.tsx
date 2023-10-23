@@ -96,7 +96,7 @@ const CricketPlayerDetails = () => {
               fontWeight={"bold"}
               component={"span"}
             >
-              Date of Birth :
+              Age :
             </Typography>
             <Typography fontSize={"1.2rem"} component={"span"}>
               {" "}

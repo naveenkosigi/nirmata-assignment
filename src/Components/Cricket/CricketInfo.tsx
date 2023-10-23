@@ -11,7 +11,7 @@ import { Button, InputLabel, Select, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import classes from "./CricketInfo.module.scss"
 
-const HEADERS = ["Name", "Rank", "Type", "Points", "DOB"];
+const HEADERS = ["Name", "Rank", "Type", "Points", "Age"];
 
 const COLUMNAPIKEYS = ["name", "rank", "type", "points", "dob"];
 

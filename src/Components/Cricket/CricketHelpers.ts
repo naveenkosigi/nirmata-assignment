@@ -1,6 +1,6 @@
 import { TMayBe, TPlayer, TPlayerType } from "../../Types/types";
 import getPlayersData from "../../Store/get-players";
-import { formatMillisecondsToDateString } from "../../Helpers/dateHelper";
+import { formatMillisecondsToDateString, getAge } from "../../Helpers/dateHelper";
 
 export const getPlayers = (args?: {
   type?: TMayBe<TPlayerType>;
@@ -14,7 +14,7 @@ export const getPlayers = (args?: {
 const transformFields = (data: TPlayer[] | any[]) => {
   for (let player of data) {
     if (player.dob) {
-      player.dob = formatMillisecondsToDateString(player.dob);
+      player.dob = getAge(player.dob);
     }
     if(player.type){
         player.type = player.type.charAt(0).toUpperCase() + player.type.slice(1)
