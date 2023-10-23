@@ -9,34 +9,34 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, InputLabel, Select, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import classes from "./CricketInfo.module.scss"
+import classes from "./CricketInfo.module.scss";
 
 const HEADERS = ["Name", "Rank", "Type", "Points", "Age"];
 
 const COLUMNAPIKEYS = ["name", "rank", "type", "points", "dob"];
 
-const tableConfig : TableConfig = {
-  name : {
-    headerLabel : "Name",
-    allowSort:false
+const tableConfig: TableConfig = {
+  name: {
+    headerLabel: "Name",
+    allowSort: true,
   },
-  rank : {
-    headerLabel : "Rank",
-    allowSort:false 
+  rank: {
+    headerLabel: "Rank",
+    allowSort: true,
   },
-  type : {
-    headerLabel : "Type",
-    allowSort : false
+  type: {
+    headerLabel: "Type",
+    allowSort: false,
   },
-  points : {
-    headerLabel:'Points',
-    allowSort : false
+  points: {
+    headerLabel: "Points",
+    allowSort: false,
   },
-  dob : {
-    headerLabel : "Age",
-    allowSort : false
-  }
-}
+  dob: {
+    headerLabel: "Age",
+    allowSort: true,
+  },
+};
 
 const CricketInfo = () => {
   const [playersData, setPlayersData] = useState<TPlayer[]>([]);
@@ -60,7 +60,7 @@ const CricketInfo = () => {
         setRecordsCount((data as TPlayer[]).length);
         setSearchType("");
         setPlayersData(data as TPlayer[]);
-      })
+      });
     } else {
       getPlayers().then((data) => {
         setPlayersData(data);
@@ -133,7 +133,7 @@ const CricketInfo = () => {
               onClick={() => {
                 setSearchType("");
               }}
-              sx={{marginTop:"0.4rem"}}
+              sx={{ marginTop: "0.4rem" }}
             >
               Clear
             </Button>
@@ -144,6 +144,7 @@ const CricketInfo = () => {
         onRowClick={onRowClick}
         data={playersData}
         config={tableConfig}
+        setData={setPlayersData}
       ></Table>
       <TablePagination
         component="div"
