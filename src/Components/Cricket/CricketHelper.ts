@@ -29,3 +29,9 @@ export const getCricketPlayerById = (id : string) : Promise<TPlayer> => {
         return player as TPlayer;
     })
 }
+
+export const getCricketPlayerByName = (name : string) : Promise<TPlayer[] | undefined> => {
+  return getPlayersData().then((data : TPlayer[]) => {
+    return data.filter((player) => player.name!.toLowerCase().indexOf(name.toLowerCase()) > -1);
+  })
+} 

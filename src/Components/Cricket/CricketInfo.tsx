@@ -3,7 +3,7 @@ import { Table } from "../Common/Table/Table";
 import { TPlayer, TPlayerType } from "../../Types/types";
 import SearchField from "../Common/SearchField";
 import Box from "@mui/material/Box";
-import { getPlayers } from "./CricketHelpers";
+import { getCricketPlayerByName, getPlayers } from "./CricketHelper";
 import TablePagination from "@mui/material/TablePagination";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
@@ -32,7 +32,12 @@ const CricketInfo = () => {
 
   useEffect(() => {
     if (searchString) {
-      setPlayersData(filterByNameAndReturn(playersData, searchString));
+      getCricketPlayerByName(searchString).then((data) => {
+        setOffSet(0);
+        setRecordsCount((data as TPlayer[]).length);
+        setSearchType("");
+        setPlayersData(data as TPlayer[]);
+      })
     } else {
       getPlayers().then((data) => {
         setPlayersData(data);

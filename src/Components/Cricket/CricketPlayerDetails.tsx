@@ -4,7 +4,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Box, IconButton } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCricketPlayerById } from "./CricketHelpers";
+import { getCricketPlayerById } from "./CricketHelper";
 import { TPlayer } from "../../Types/types";
 
 const CricketPlayerDetails = () => {
