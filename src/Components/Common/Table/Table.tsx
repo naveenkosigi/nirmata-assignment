@@ -6,6 +6,8 @@ import {
   TableBody,
   Table as MaterialTable,
   TableSortLabel,
+  Alert,
+  Grid,
 } from "@mui/material";
 import classes from "./Table.module.scss";
 import { useEffect, useState } from "react";
@@ -69,6 +71,11 @@ export function Table(props: TablePropsType) {
 
   return (
     <>
+      <Grid container>
+        <Grid item xs={12} sm={"auto"} marginTop={"0.8rem"} marginBottom={"1.2rem"}>
+          <Alert severity="info">Few Columns can be sorted!</Alert>
+        </Grid>
+      </Grid>
       <TableContainer style={{ width: "100%", maxHeight: "59vh" }}>
         <MaterialTable aria-label="simple table" stickyHeader>
           <TableHead>
