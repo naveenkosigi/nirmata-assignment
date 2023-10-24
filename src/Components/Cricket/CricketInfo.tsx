@@ -8,7 +8,7 @@ import TablePagination from "@mui/material/TablePagination";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, InputLabel, Select, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import classes from "./CricketInfo.module.scss";
 
 const CRICKETPLAYERFILTER ="cricketPlayerFilter";
@@ -59,6 +59,14 @@ const CricketInfo = () => {
   const [recordsCount, setRecordsCount] = useState<number>(0);
 
   const navigate = useNavigate();
+
+  const location   = useLocation();
+
+  useEffect(() => {
+    if(location.pathname.endsWith('/')){
+      navigate("/cricket")
+    }
+  },[])
 
   useEffect(() => {
     if (searchString) {
