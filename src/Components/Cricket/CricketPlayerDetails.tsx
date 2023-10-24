@@ -6,15 +6,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCricketPlayerById } from "./CricketHelper";
 import { TPlayer } from "../../Types/types";
+import { formatMillisecondsToDateString } from "../../Helpers/dateHelper";
+
+interface TPlayerExtended extends TPlayer{
+  age : number
+}
 
 const CricketPlayerDetails = () => {
   const navigate = useNavigate();
   const { id: userId } = useParams();
 
-  const [player, setPlayer] = useState<TPlayer>();
+  const [player, setPlayer] = useState<TPlayerExtended>();
 
   useEffect(() => {
-    getCricketPlayerById(userId as string).then((player) => {
+    getCricketPlayerById(userId as string).then((player : any) => {
       setPlayer(player);
     });
   }, []);
@@ -100,7 +105,20 @@ const CricketPlayerDetails = () => {
             </Typography>
             <Typography fontSize={"1.2rem"} component={"span"}>
               {" "}
-              {player?.dob}
+              {player?.age}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              fontSize={"1.2rem"}
+              fontWeight={"bold"}
+              component={"span"}
+            >
+              Date of Birth :
+            </Typography>
+            <Typography fontSize={"1.2rem"} component={"span"}>
+              {" "}
+              {formatMillisecondsToDateString(player?.dob)}
             </Typography>
           </Grid>
           <Grid item xs={12}>

@@ -36,7 +36,7 @@ const tableConfig: TableConfig = {
     headerLabel: "Points",
     allowSort: false,
   },
-  dob: {
+  age: {
     headerLabel: "Age",
     allowSort: true,
   },

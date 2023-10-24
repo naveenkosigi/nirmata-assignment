@@ -14,7 +14,7 @@ export const getPlayers = (args?: {
 const transformFields = (data: TPlayer[] | any[]) => {
   for (let player of data) {
     if (player.dob) {
-      player.dob = getAge(player.dob);
+      player.age = getAge(player.dob);
     }
     if(player.type){
         player.type = player.type.charAt(0).toUpperCase() + player.type.slice(1)
@@ -32,6 +32,7 @@ export const getCricketPlayerById = (id : string) : Promise<TPlayer> => {
 
 export const getCricketPlayerByName = (name : string) : Promise<TPlayer[] | undefined> => {
   return getPlayersData().then((data : TPlayer[]) => {
+    transformFields(data);
     return data.filter((player) => player.name!.toLowerCase().indexOf(name.toLowerCase()) > -1);
   })
 } 
